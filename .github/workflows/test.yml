@@ -15,9 +15,9 @@ jobs:
           npm i
           cd ../second
           npm i
+          npm run build
           cd ../third
           npm i
-          npm run build
       - name: Install modules for 'firebase-proj-unbuilt-ts'
         run: |
           cd __tests__/firebase-proj/ts-codebase
