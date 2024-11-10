@@ -20,7 +20,7 @@ jobs:
           npm i
       - name: Install modules for 'firebase-proj-unbuilt-ts'
         run: |
-          cd __tests__/firebase-proj/ts-codebase
+          cd __tests__/firebase-proj-unbuilt-ts/ts-codebase
           npm i
       - name: Run tests
         run: npm run test
@@ -43,7 +43,7 @@ jobs:
           npm run build
       - name: Install modules for 'firebase-proj-unbuilt-ts'
         run: |
-          cd __tests__/firebase-proj/ts-codebase
+          cd __tests__/firebase-proj-unbuilt-ts/ts-codebase
           npm i
       - name: Run tests
         run: npm run test
