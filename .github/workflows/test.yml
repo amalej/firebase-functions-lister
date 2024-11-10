@@ -1,18 +1,49 @@
 on: [push, pull_request]
 
 jobs:
-  build:
+  test-linux:
     runs-on: ubuntu-latest
-    name: Perform the jest test
+    name: Perform tests
     steps:
-      - uses: actions/checkout@v3
-      - name: Install modules
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install modules for 'firebase-proj'
         run: |
-          cd test/app/functions
+          cd __tests__/firebase-proj/functions
           npm i
           cd ../second
           npm i
           cd ../third
           npm i
-      - name: Run jest
+          npm run build
+      - name: Install modules for 'firebase-proj-unbuilt-ts'
+        run: |
+          cd __tests__/firebase-proj/ts-codebase
+          npm i
+      - name: Run tests
+        run: npm run test
+  test-windows:
+    runs-on: windows-latest
+    name: Perform tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install modules for 'firebase-proj'
+        run: |
+          cd __tests__/firebase-proj/functions
+          npm i
+          cd ../second
+          npm i
+          cd ../third
+          npm i
+          npm run build
+      - name: Install modules for 'firebase-proj-unbuilt-ts'
+        run: |
+          cd __tests__/firebase-proj/ts-codebase
+          npm i
+      - name: Run tests
         run: npm run test
