@@ -36,8 +36,7 @@ async function importEsmModule(importPath: string): Promise<any> {
 function getFullPath(relativePath: string) {
   // The "file://" prefix is needed for importing on Windows.
   const pathPrefix = process.platform === "win32" ? "file://" : "";
-  const cwd = process.cwd();
-  const subPath = join(cwd, relativePath);
+  const subPath = join(process.cwd(), relativePath);
 
   // Hack: This is somewhat needed for Windows
   const fullPath =

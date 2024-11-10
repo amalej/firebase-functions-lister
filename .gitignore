@@ -13,3 +13,6 @@ build
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# test
+coverage
