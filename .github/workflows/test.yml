@@ -9,6 +9,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Install modules
+        run: "npm i"
       - name: Install modules for 'firebase-proj'
         run: |
           cd __tests__/firebase-proj/functions
@@ -32,6 +34,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Install modules
+        run: "npm i"
       - name: Install modules for 'firebase-proj'
         run: |
           cd __tests__/firebase-proj/functions
