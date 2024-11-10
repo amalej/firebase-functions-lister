@@ -1,0 +1,22 @@
+{
+  "name": "firebase-functions-lister",
+  "version": "0.0.1",
+  "description": "Lists Firebase Functions you can deploy from your local directory.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "jest"
+  },
+  "keywords": [
+    "firebase-functions",
+    "firebase"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "typescript": "^5.6.3"
+  }
+}
