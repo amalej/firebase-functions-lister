@@ -9,18 +9,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Install modules
+        run: "npm i"
       - name: Install modules for 'firebase-proj'
         run: |
           cd __tests__/firebase-proj/functions
           npm i
           cd ../second
           npm i
+          npm run build
           cd ../third
           npm i
-          npm run build
       - name: Install modules for 'firebase-proj-unbuilt-ts'
         run: |
-          cd __tests__/firebase-proj/ts-codebase
+          cd __tests__/firebase-proj-unbuilt-ts/ts-codebase
           npm i
       - name: Run tests
         run: npm run test
@@ -32,6 +34,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Install modules
+        run: "npm i"
       - name: Install modules for 'firebase-proj'
         run: |
           cd __tests__/firebase-proj/functions
@@ -43,7 +47,7 @@ jobs:
           npm run build
       - name: Install modules for 'firebase-proj-unbuilt-ts'
         run: |
-          cd __tests__/firebase-proj/ts-codebase
+          cd __tests__/firebase-proj-unbuilt-ts/ts-codebase
           npm i
       - name: Run tests
         run: npm run test
