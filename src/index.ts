@@ -40,7 +40,10 @@ function getFullPath(relativePath: string) {
   const subPath = join(cwd, relativePath);
 
   // Hack: This is somewhat needed for Windows
-  const fullPath = [pathPrefix, subPath].join(pathSep).replace(/\\/g, "/");
+  const fullPath =
+    process.platform === "win32"
+      ? [pathPrefix, subPath].join(pathSep).replace(/\\/g, "/")
+      : subPath;
   return fullPath;
 }
 
