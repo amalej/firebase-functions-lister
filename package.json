@@ -12,6 +12,9 @@
     "firebase-functions",
     "firebase"
   ],
+  "files": [
+    "lib"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
