@@ -174,14 +174,3 @@ export function getFunctionsDeployCommands(functionsConfig: CodebaseConfig[]) {
   }
   return deployCommands;
 }
-
-async function main() {
-  const functionsConfig = await loadFunctionsConfig(
-    "./__tests__/firebase-proj"
-  );
-
-  const deployCommands = getFunctionsDeployCommands(functionsConfig);
-  console.log(deployCommands);
-}
-
-main();
