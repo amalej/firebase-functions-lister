@@ -1,4 +1,4 @@
-# Firebase Functions Lister
+# Firebase Functions Lister [![github](https://img.shields.io/badge/GitHub-repository-blue)](https://github.com/amalej/firebase-functions-lister) [![npm](https://img.shields.io/npm/v/firebase-functions-lister)](https://www.npmjs.com/package/firebase-functions-lister) [![npm](https://img.shields.io/npm/dt/firebase-functions-lister)](https://www.npmjs.com/package/firebase-functions-lister?activeTab=versions)
 
 Staticly lists the Firebase Functions you have in your local Firebase Project
 
@@ -8,6 +8,8 @@ Staticly lists the Firebase Functions you have in your local Firebase Project
 - If you're using TypeScript, it must be complied to JavaScript
 
 ## How to use
+
+### Getting Firebase Functions config
 
 ```js
 const { loadFunctionsConfig } = require("./lib");
@@ -23,7 +25,7 @@ async function main() {
 main();
 ```
 
-### Outputs
+#### Outputs:
 
 ```json
 [
@@ -111,5 +113,37 @@ main();
     ]
   },
   ...
+]
+```
+
+### Getting list of deploy commands
+
+```js
+async function main() {
+  const functionCodebaseConfig = await loadFunctionsConfig(
+    "./__tests__/firebase-proj"
+  );
+
+  const deployCommands = getFunctionsDeployCommands(functionCodebaseConfig);
+  console.log(deployCommands);
+}
+
+main();
+```
+
+#### Outputs:
+
+```json
+[
+  "functions:default:groups.groupedFunctionJs01",
+  "functions:default:groups.groupedFunctionJs02",
+  "functions:default:helloWorldJs01",
+  "functions:default:onDocWrittenJs01",
+  "functions:second-codebase:grouped.helloWorldTsGrouped01",
+  "functions:second-codebase:helloWorldTs01",
+  "functions:second-codebase:helloWorldTs02",
+  "functions:third-codebase:groups.groupedHelloWorldJsEs01",
+  "functions:third-codebase:groups.groupedHelloWorldJsEs02",
+  "functions:third-codebase:helloWorldJsEs01"
 ]
 ```

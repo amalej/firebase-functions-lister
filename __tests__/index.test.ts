@@ -1,7 +1,7 @@
-import { loadFunctionsConfig } from "../src";
+import { loadFunctionsConfig, getFunctionsDeployCommands } from "../src";
 
 describe("Test loading of Firebase Functions Config (Node.js)", () => {
-  let config: any = {};
+  let config: any = [];
   beforeAll(async () => {
     config = await loadFunctionsConfig("./__tests__/firebase-proj");
   });
@@ -51,5 +51,30 @@ describe("Test failed loading of Firebase Functions Config (Node.js)", () => {
     );
 
     expect(config[0].functions).toEqual({});
+  });
+});
+
+describe("Test loading of Firebase Functions Config (Node.js)", () => {
+  let config: any = [];
+  beforeAll(async () => {
+    config = await loadFunctionsConfig("./__tests__/firebase-proj");
+  });
+
+  it("should correctly load the deploy commands for all codebases", async () => {
+    const functionDeployCommands = getFunctionsDeployCommands(config);
+    expect(functionDeployCommands.sort()).toMatchObject(
+      [
+        "functions:default:groups.groupedFunctionJs01",
+        "functions:default:groups.groupedFunctionJs02",
+        "functions:default:helloWorldJs01",
+        "functions:default:onDocWrittenJs01",
+        "functions:second-codebase:grouped.helloWorldTsGrouped01",
+        "functions:second-codebase:helloWorldTs01",
+        "functions:second-codebase:helloWorldTs02",
+        "functions:third-codebase:groups.groupedHelloWorldJsEs01",
+        "functions:third-codebase:groups.groupedHelloWorldJsEs02",
+        "functions:third-codebase:helloWorldJsEs01",
+      ].sort()
+    );
   });
 });

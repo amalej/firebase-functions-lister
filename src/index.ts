@@ -33,7 +33,7 @@ async function importEsmModule(importPath: string): Promise<any> {
   return module;
 }
 
-function getFullPath(relativePath: string) {
+function getModuleImportPath(relativePath: string) {
   // The "file://" prefix is needed for importing on Windows.
   const pathPrefix = process.platform === "win32" ? "file://" : "";
   const subPath = join(process.cwd(), relativePath);
@@ -75,9 +75,9 @@ async function getCodebases(path: string) {
 }
 
 async function getExports(filePath: string) {
-  const fullPath = getFullPath(filePath);
+  const moduleImportPath = getModuleImportPath(filePath);
   try {
-    const obj = await importEsmModule(fullPath);
+    const obj = await importEsmModule(moduleImportPath);
 
     function flattenFunction(obj: any) {
       let finalObject: any = {};
@@ -126,7 +126,7 @@ async function getExports(filePath: string) {
   }
 }
 
-async function getFuctionsFromCodebase(
+async function getFunctionsFromCodebase(
   codebase: CodebaseConfig,
   codebasePath: string
 ) {
@@ -141,14 +141,36 @@ async function getFuctionsFromCodebase(
  * @param functionsPath Relative path to the root directory of the Firebase project folder.
  * @returns List of Firebase Functions codebase config.
  */
-export async function loadFunctionsConfig(functionsPath: string) {
+export async function loadFunctionsConfig(
+  functionsPath: string
+): Promise<CodebaseConfig[]> {
   const codebases = await getCodebases(functionsPath);
   const getCodebasePromises: Promise<CodebaseConfig>[] = [];
   for (let codebase of codebases) {
     const modulePath = join(functionsPath, codebase.source, codebase.main);
-    getCodebasePromises.push(getFuctionsFromCodebase(codebase, modulePath));
+    getCodebasePromises.push(getFunctionsFromCodebase(codebase, modulePath));
   }
 
   const codebaseConfigs = await Promise.all(getCodebasePromises);
   return codebaseConfigs;
+}
+
+/**
+ * @param functionsConfig Firebase Functions config obtained from {@link loadFunctionsConfig()}
+ * @returns A list containing commands on how to deploy the functions.
+ * For example:
+ * - `functions:default:helloWorld`
+ * - `functions:second-codebase:helloWorldTs01`
+ * - `functions:third-codebase:helloWorldJsEs01`
+ */
+export function getFunctionsDeployCommands(functionsConfig: CodebaseConfig[]) {
+  const deployCommands: string[] = [];
+  for (let functionConfig of functionsConfig) {
+    for (let functionName of functionConfig.functionNames) {
+      deployCommands.push(
+        `functions:${functionConfig.codebase}:${functionName}`
+      );
+    }
+  }
+  return deployCommands;
 }
